@@ -10,7 +10,7 @@ import './App.css';
 class App extends Component {
   state = {
     searchValue: '',
-    modal: false,
+    showModal: false,
     srsModalImage: '',
   };
 
@@ -20,9 +20,14 @@ class App extends Component {
     });
   };
 
+  toggleModal = () => {
+    this.setState(state => ({
+      showModal: !state.showModal,
+    }));
+  };
+
   modalImage = dataImage => {
-    //   console.log(dataImage);
-    this.setState({ srsModalImage: 'dataImage' });
+    this.setState({ srsModalImage: dataImage, showModal: true });
   };
 
   render() {
@@ -32,7 +37,14 @@ class App extends Component {
         <main>
           <ImageGallery search={this.state.searchValue} modalImage={this.modalImage} />
         </main>
-        {this.state.modal && <Modal />}
+        {this.state.showModal && (
+          <Modal onClose={this.toggleModal}>
+            <img src={this.state.srsModalImage} alt="" />
+            <button type="button" onClick={this.toggleModal}>
+              Close
+            </button>
+          </Modal>
+        )}
       </div>
     );
   }

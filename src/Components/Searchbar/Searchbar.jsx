@@ -61,7 +61,6 @@ class Searchbar extends Component {
             },
           }}
         />
-        ;
       </header>
     );
   }
