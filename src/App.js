@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { VscChromeClose } from 'react-icons/vsc';
 
 import s from './App.module.css';
 import Searchbar from './Components/Searchbar/Searchbar.jsx';
@@ -40,8 +41,8 @@ class App extends Component {
         {this.state.showModal && (
           <Modal onClose={this.toggleModal}>
             <img src={this.state.srsModalImage} alt="" />
-            <button type="button" onClick={this.toggleModal}>
-              Close
+            <button type="button" className={s.closeBtn} onClick={this.toggleModal}>
+              <VscChromeClose />
             </button>
           </Modal>
         )}
