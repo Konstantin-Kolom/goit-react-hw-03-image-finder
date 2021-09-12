@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 import s from './App.module.css';
 import Searchbar from './Components/Searchbar/Searchbar.jsx';
 import ImageGallery from './Components/ImageGallery/ImageGallery.jsx';
-// import ImageGalleryItem from './Components/ImageGalleryItem/ImageGalleryItem.jsx';
+import Modal from './Components/Modal/Modal.jsx';
 
 import './App.css';
 
 class App extends Component {
   state = {
     searchValue: '',
-    galleryItem: false,
+    modal: false,
   };
 
   formSubmit = searchData => {
@@ -19,15 +19,18 @@ class App extends Component {
     });
   };
 
+  //   modalImage = dataImage => {
+  //     console.log(dataImage);
+  //   };
+
   render() {
     return (
       <div className={s.App}>
         <Searchbar onSubmit={this.formSubmit} />
-        {/* <main> */}
-        <ImageGallery search={this.state.searchValue} />
-        {/* </main> */}
-        {/* <ImageGalleryItem search={this.state.searchValue} /> */}
-        {/* <Modal /> */}
+        <main>
+          <ImageGallery search={this.state.searchValue} modalImage={this.modalImage} />
+        </main>
+        {this.state.modal && <Modal />}
       </div>
     );
   }

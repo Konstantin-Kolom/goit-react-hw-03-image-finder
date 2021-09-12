@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 
 import { API_KEY, URL } from '../../Utilits/KEY_pixabay';
+import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 import Button from '../Button/Button';
-import s from './ImageGallery.modele.css';
-
-// const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop);
+import s from './ImageGallery.module.css';
 
 class ImageGallery extends Component {
   state = {
@@ -36,25 +35,18 @@ class ImageGallery extends Component {
     this.setState({ page: pageMore });
   };
 
-  //   scrollTo = () => {
-  //     console.log('dddd');
-  //     window.scrollTo({
-  //       top: document.documentElement.scrollHeight,
-  //       behavior: 'smooth',
-  //     });
+  //   clickImage = image => {
+  //     console.log(image);
   //   };
 
   render() {
-    //  this.scrollTo();
     return (
       <>
-        <ul>
-          {this.state.gallery.map(({ id, webformatURL }) => (
-            <li key={id} className={s.ImageGallery}>
-              <img src={webformatURL} alt="" loading="lazy" />
-            </li>
-          ))}
-        </ul>
+        {this.state.gallery.length > 0 && (
+          <ul className={s.ImageGallery}>
+            <ImageGalleryItem gallery={this.state.gallery} clickImage={this.clickImage} />
+          </ul>
+        )}
         {this.state.total > 0 && <Button page={this.state.page} onLoadMore={this.loadMore} />}
       </>
     );
