@@ -35,16 +35,17 @@ class ImageGallery extends Component {
     this.setState({ page: pageMore });
   };
 
-  //   clickImage = image => {
-  //     console.log(image);
-  //   };
+  modalImageData = imageSrc => {
+    //  console.log(imageSrc);
+    this.props.modalImage(imageSrc);
+  };
 
   render() {
     return (
       <>
         {this.state.gallery.length > 0 && (
           <ul className={s.ImageGallery}>
-            <ImageGalleryItem gallery={this.state.gallery} clickImage={this.clickImage} />
+            <ImageGalleryItem gallery={this.state.gallery} modalImageData={this.modalImageData} />
           </ul>
         )}
         {this.state.total > 0 && <Button page={this.state.page} onLoadMore={this.loadMore} />}

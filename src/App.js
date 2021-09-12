@@ -11,6 +11,7 @@ class App extends Component {
   state = {
     searchValue: '',
     modal: false,
+    srsModalImage: '',
   };
 
   formSubmit = searchData => {
@@ -19,9 +20,10 @@ class App extends Component {
     });
   };
 
-  //   modalImage = dataImage => {
-  //     console.log(dataImage);
-  //   };
+  modalImage = dataImage => {
+    //   console.log(dataImage);
+    this.setState({ srsModalImage: 'dataImage' });
+  };
 
   render() {
     return (
