@@ -19,6 +19,7 @@ class ImageGallery extends Component {
       this.clearGallery();
       this.setState({
         loading: true,
+        page: 1,
       });
       return fetch(
         `${URL}?q=${this.props.search}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`,
@@ -44,7 +45,7 @@ class ImageGallery extends Component {
       });
     }
 
-    if (prevState.page !== this.state.page) {
+    if (prevState.page !== this.state.page && this.state.page > 1) {
       this.setState({
         loading: true,
       });
@@ -72,12 +73,6 @@ class ImageGallery extends Component {
 
   modalImageData = imageSrc => {
     this.props.modalImage(imageSrc);
-  };
-
-  activBtnloadMore = () => {
-    if (this.state.total > 0) {
-      return true;
-    }
   };
 
   clearGallery = () => {
@@ -111,7 +106,9 @@ class ImageGallery extends Component {
             <ImageGalleryItem gallery={gallery} modalImageData={this.modalImageData} />
           </ul>
         )}
-        {loadMoreButton && <Button page={this.state.page} onLoadMore={this.loadMore} />}
+        {loadMoreButton && (
+          <Button page={this.state.page} onLoadMore={this.loadMore} search={this.props.search} />
+        )}
         {loading && <SpinnerLoader />}
       </>
     );

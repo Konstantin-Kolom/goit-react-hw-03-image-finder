@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
-// import Loader from '../Loader/Loader';
 
 import s from './ImageGalleryItem.module.css';
 
 class ImageGalleryItem extends Component {
-  state = {
-    //  loading: false,
-  };
-
   hendleClickImage = e => {
-    this.setState({ loading: true });
     this.props.modalImageData(e.target.parentNode.getAttribute('srcmodal'));
   };
 
@@ -32,7 +26,6 @@ class ImageGalleryItem extends Component {
             />
           </li>
         ))}
-        {/* {this.state.loading && <Loader />} */}
       </>
     );
   }

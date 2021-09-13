@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import s from './Button.module.css';
 
 class Button extends Component {
-  //   componentWillUnmount() {
-  //     this.props.onLoadMore(1);
-  //   }
-
   hendleClick = e => {
     e.preventDefault();
     this.props.onLoadMore(this.props.page + 1);
