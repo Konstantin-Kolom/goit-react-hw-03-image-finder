@@ -3,8 +3,6 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import s from './Searchbar.module.css';
 
-// const notify = () => toast('Please, enter photo title.');
-
 class Searchbar extends Component {
   state = {
     value: '',

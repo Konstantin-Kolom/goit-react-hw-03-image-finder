@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
+// import Loader from '../Loader/Loader';
 
 import s from './ImageGalleryItem.module.css';
 
 class ImageGalleryItem extends Component {
+  state = {
+    //  loading: false,
+  };
+
   hendleClickImage = e => {
-    //  console.log(e.target.parentNode.getAttribute('srcmodal'));
+    this.setState({ loading: true });
     this.props.modalImageData(e.target.parentNode.getAttribute('srcmodal'));
   };
 
@@ -12,7 +17,6 @@ class ImageGalleryItem extends Component {
     return (
       <>
         {this.props.gallery.map(({ id, webformatURL, tags, largeImageURL }) => (
-          //  <a href={{ largeImageURL }} key={id} onClick={this.hendleClickImage}>
           <li
             key={id}
             className={s.ImageGalleryItem}
@@ -25,11 +29,10 @@ class ImageGalleryItem extends Component {
               alt={tags}
               loading="lazy"
               className={s.ImageGalleryItemImage}
-              //   srcmodal={largeImageURL}
             />
           </li>
-          //  </a>
         ))}
+        {/* {this.state.loading && <Loader />} */}
       </>
     );
   }

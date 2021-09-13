@@ -3,30 +3,64 @@ import React, { Component } from 'react';
 import { API_KEY, URL } from '../../Utilits/KEY_pixabay';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 import Button from '../Button/Button';
+import { SpinnerLoader } from '../Loader/Loader';
 import s from './ImageGallery.module.css';
 
 class ImageGallery extends Component {
   state = {
     gallery: [],
     page: 1,
-    per_page: 12,
-    total: 0,
+    loading: false,
+    error: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.search !== this.props.search || prevState.page !== this.state.page) {
+    if (prevProps.search !== this.props.search) {
+      this.setState({
+        loading: true,
+      });
       return fetch(
-        `${URL}?q=${this.props.search}&page=${this.state.page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${this.state.per_page}`,
+        `${URL}?q=${this.props.search}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`,
       ).then(response => {
         if (!response.ok) {
           throw new Error(response.status);
         }
-        response.json().then(photo =>
-          this.setState(prevState => ({
-            gallery: prevState.gallery.concat(photo.hits),
-            total: photo.total,
-          })),
-        );
+        response
+          .json()
+          .then(photo => {
+            const data = photo.hits;
+            if (data.length > 0) {
+              this.setState(prevState => ({
+                gallery: data,
+                error: false,
+              }));
+            } else {
+              this.setState({ error: true });
+            }
+          })
+          .catch(() => this.setState({ error: true }))
+          .finally(() => this.setState({ loading: false }));
+      });
+    }
+
+    if (prevState.page !== this.state.page) {
+      this.setState({
+        loading: true,
+      });
+      return fetch(
+        `${URL}?q=${this.props.search}&page=${this.state.page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`,
+      ).then(response => {
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+        response
+          .json()
+          .then(photo =>
+            this.setState(prevState => ({
+              gallery: [...prevState.gallery, ...photo.hits],
+            })),
+          )
+          .finally(() => this.setState({ loading: false }));
       });
     }
   }
@@ -36,19 +70,28 @@ class ImageGallery extends Component {
   };
 
   modalImageData = imageSrc => {
-    //  console.log(imageSrc);
     this.props.modalImage(imageSrc);
   };
 
+  activBtnloadMore = () => {
+    if (this.state.total > 0) {
+      return true;
+    }
+  };
+
   render() {
+    const { gallery, loading, error } = this.state;
+    const loadMoreButton = gallery.length > 0 && !loading;
     return (
       <>
-        {this.state.gallery.length > 0 && (
+        {error && <h1 className="">No results found for your request ...'{this.props.search}'!</h1>}
+        {gallery.length > 0 && (
           <ul className={s.ImageGallery}>
-            <ImageGalleryItem gallery={this.state.gallery} modalImageData={this.modalImageData} />
+            <ImageGalleryItem gallery={gallery} modalImageData={this.modalImageData} />
           </ul>
         )}
-        {this.state.total > 0 && <Button page={this.state.page} onLoadMore={this.loadMore} />}
+        {loadMoreButton && <Button page={this.state.page} onLoadMore={this.loadMore} />}
+        {loading && <SpinnerLoader />}
       </>
     );
   }

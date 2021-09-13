@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import s from './Button.module.css';
 
-// const scrollToRef = ref => window.scrollTo(0, ref.current.offsetTop);
-
 class Button extends Component {
-  myRef = null;
+  //   componentWillUnmount() {
+  //     this.props.onLoadMore(1);
+  //   }
 
   hendleClick = e => {
     e.preventDefault();
+    console.log('dddd');
     this.props.onLoadMore(this.props.page + 1);
-    this.scrollToMyRef();
+    this.scrollTo();
   };
 
   scrollTo = () => {
@@ -18,8 +19,6 @@ class Button extends Component {
       behavior: 'smooth',
     });
   };
-
-  scrollToMyRef = () => window.scrollTo(0, this.myRef.offsetTop);
 
   render() {
     return (
