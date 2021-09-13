@@ -16,6 +16,7 @@ class ImageGallery extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.search !== this.props.search) {
+      this.clearGallery();
       this.setState({
         loading: true,
       });
@@ -79,12 +80,24 @@ class ImageGallery extends Component {
     }
   };
 
+  clearGallery = () => {
+    this.setState({
+      gallery: [],
+    });
+  };
+
   render() {
     const { gallery, loading, error } = this.state;
     const loadMoreButton = gallery.length > 0 && !loading;
     return (
       <>
-        {error && <h1 className="">No results found for your request ...'{this.props.search}'!</h1>}
+        {error && (
+          <h1 className={s.mesageError}>
+            No results found for your request '{this.props.search}'!
+            <br />
+            Please search again.
+          </h1>
+        )}
         {gallery.length > 0 && (
           <ul className={s.ImageGallery}>
             <ImageGalleryItem gallery={gallery} modalImageData={this.modalImageData} />
