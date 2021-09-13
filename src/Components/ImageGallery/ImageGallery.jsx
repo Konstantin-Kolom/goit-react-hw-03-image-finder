@@ -86,9 +86,17 @@ class ImageGallery extends Component {
     });
   };
 
+  scrollTo = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
+  };
+
   render() {
     const { gallery, loading, error } = this.state;
     const loadMoreButton = gallery.length > 0 && !loading;
+    this.scrollTo();
     return (
       <>
         {error && (

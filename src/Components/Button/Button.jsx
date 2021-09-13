@@ -8,16 +8,7 @@ class Button extends Component {
 
   hendleClick = e => {
     e.preventDefault();
-    console.log('dddd');
     this.props.onLoadMore(this.props.page + 1);
-    this.scrollTo();
-  };
-
-  scrollTo = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
   };
 
   render() {
